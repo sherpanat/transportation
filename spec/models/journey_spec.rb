@@ -17,5 +17,11 @@ RSpec.describe Journey, type: :model do
       expect(journey.code).to be_a(String)
       expect(journey.code.size).to be 4
     end
+
+    it 'should log change of status' do
+      journey = create(:journey)
+      expect(Rails.logger).to receive(:info).with("Status of journey number #{journey.id} (code: #{journey.code}) changed from created to cancelled")
+      journey.cancelled!
+    end
   end
 end
